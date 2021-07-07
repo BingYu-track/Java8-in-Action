@@ -8,31 +8,58 @@ import java.util.function.Predicate;
 public class FilteringApples {
 
   public static void main(String... args) {
+
     List<Apple> inventory = Arrays.asList(
         new Apple(80, "green"),
         new Apple(155, "green"),
         new Apple(120, "red")
     );
 
-    // [Apple{color='green', weight=80}, Apple{color='green', weight=155}]
-    List<Apple> greenApples = filterApples(inventory, FilteringApples::isGreenApple);
+    /**
+     * 直接传递方法
+     */
+
+    //选出绿苹果
+    List<Apple> greenApples = filterApples(inventory, FilteringApples::isGreenApple); //是否是绿苹果
     System.out.println(greenApples);
 
-    // [Apple{color='green', weight=155}]
-    List<Apple> heavyApples = filterApples(inventory, FilteringApples::isHeavyApple);
+    //选出指定重量的苹果
+    List<Apple> heavyApples = filterApples(inventory, FilteringApples::isHeavyApple); //重量是否大于150
     System.out.println(heavyApples);
 
-    // [Apple{color='green', weight=80}, Apple{color='green', weight=155}]
+    //注意上面将isGreenApple和isHeavyApple作为方法传递了进去，因此我们每次还需要定义isGreenApple和isHeavyApple这两个方法
+    //下面我们使用->这种Lambda表达式可以直接免除这些方法的定义
+
+    /**
+     * 使用Lambda表达式(要注意的是，如果Lambda的长度多于几行，那样可读性会变得比较差，那样的话还是最后定义一个方法来描述，因此在逻辑不是很复杂
+     * 的情况下，直接使用Lambda表达式是相当好的选择)
+     */
     List<Apple> greenApples2 = filterApples(inventory, (Apple a) -> "green".equals(a.getColor()));
     System.out.println(greenApples2);
 
-    // [Apple{color='green', weight=155}]
     List<Apple> heavyApples2 = filterApples(inventory, (Apple a) -> a.getWeight() > 150);
     System.out.println(heavyApples2);
 
-    // []
     List<Apple> weirdApples = filterApples(inventory, (Apple a) -> a.getWeight() < 80 || "brown".equals(a.getColor()));
     System.out.println(weirdApples);
+  }
+
+  public static boolean isGreenApple(Apple apple) {
+    return "green".equals(apple.getColor());
+  }
+
+  public static boolean isHeavyApple(Apple apple) {
+    return apple.getWeight() > 150;
+  }
+
+  public static List<Apple> filterApples(List<Apple> inventory, Predicate<Apple> p) { //方法作为Predicate参数p传进去，predicate也称为谓词
+    List<Apple> result = new ArrayList<>();
+    for (Apple apple : inventory) {
+      if (p.test(apple)) { //判断苹果是否符合p所代表的条件
+        result.add(apple);
+      }
+    }
+    return result;
   }
 
   public static List<Apple> filterGreenApples(List<Apple> inventory) {
@@ -55,23 +82,7 @@ public class FilteringApples {
     return result;
   }
 
-  public static boolean isGreenApple(Apple apple) {
-    return "green".equals(apple.getColor());
-  }
 
-  public static boolean isHeavyApple(Apple apple) {
-    return apple.getWeight() > 150;
-  }
-
-  public static List<Apple> filterApples(List<Apple> inventory, Predicate<Apple> p) {
-    List<Apple> result = new ArrayList<>();
-    for (Apple apple : inventory) {
-      if (p.test(apple)) {
-        result.add(apple);
-      }
-    }
-    return result;
-  }
 
   public static class Apple {
 
