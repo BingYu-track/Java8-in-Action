@@ -6,7 +6,7 @@ import static java.util.stream.Collectors.toList;
 import static lambdasinaction.chap01.FilteringApples.Apple;
 /**
  * @version 1.0
- * @Description: 流
+ * @Description: 流的初识
  * @author: bingyu
  * @date: 2021/7/7
  */
