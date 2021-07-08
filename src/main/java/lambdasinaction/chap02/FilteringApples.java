@@ -152,7 +152,7 @@ public class FilteringApples {
   }
 
 
-  //定义一个苹果属性的接口，ApplePredicate的每个实现都代表着对苹果不同的筛选标准!
+  //定义一个苹果属性的接口，ApplePredicate的每个实现都代表着对苹果不同的筛选标准!!
   interface ApplePredicate {
 
     boolean test(Apple a);
