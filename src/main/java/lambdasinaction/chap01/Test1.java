@@ -44,7 +44,7 @@ public class Test1 {
         );
         //顺序处理：
         long l1 = System.currentTimeMillis();
-        List<Apple> heavyApples = inventory.stream().filter((Apple a) -> a.getWeight() > 150)
+        List<Apple> heavyApples1 = inventory.stream().filter((Apple a) -> a.getWeight() > 150)
                         .collect(toList());
         long l2 = System.currentTimeMillis();
         long l = l2 - l1;

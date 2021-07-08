@@ -1,5 +1,8 @@
 package lambdasinaction.chap02;
 
+/**
+ * 匿名类谜题
+ */
 public class MeaningOfThis {
 
   public final int value = 4;
@@ -11,7 +14,7 @@ public class MeaningOfThis {
       @Override
       public void run() {
         int value = 10;
-        System.out.println(this.value);
+        System.out.println(this.value); //这里输出的是5，因为匿名类里的this指的是Runnable接口的内部实现类
       }
     };
     r.run();
