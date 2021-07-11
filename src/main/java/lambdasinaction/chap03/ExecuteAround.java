@@ -18,6 +18,7 @@ public class ExecuteAround {
     String oneLine = processFile((BufferedReader b) -> b.readLine());
     System.out.println(oneLine);
 
+    //读2行
     String twoLines = processFile((BufferedReader b) -> b.readLine() + b.readLine());
     System.out.println(twoLines);
   }
@@ -30,10 +31,11 @@ public class ExecuteAround {
 
   public static String processFile(BufferedReaderProcessor p) throws IOException {
     try (BufferedReader br = new BufferedReader(new FileReader(FILE))) {
-      return p.process(br);
+      return p.process(br); //处理BufferedReader对象。而传递过来的p就是行为参数
     }
   }
 
+  @FunctionalInterface //表示这个接口是函数式接口
   public interface BufferedReaderProcessor {
 
     String process(BufferedReader b) throws IOException;

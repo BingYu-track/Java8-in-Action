@@ -1,5 +1,8 @@
 package lambdasinaction.chap03;
 
+import java.util.HashMap;
+import java.util.concurrent.Callable;
+
 public class Apple {
 
   private int weight = 0;
@@ -30,6 +33,10 @@ public class Apple {
   @Override
   public String toString() {
     return String.format("Apple{color=%s, weight=%d}", color, weight);
+  }
+
+  public Callable<String> fetch() {
+    return () -> "Tricky example ;-)";
   }
 
 }
