@@ -6,7 +6,7 @@ import java.util.function.Consumer;
 
 /**
  * @version 1.0
- * @Description: Consumer<T>
+ * @Description: Consumer<T> 消费型接口
  * @author: bingyu
  * @date: 2021/7/11
  */

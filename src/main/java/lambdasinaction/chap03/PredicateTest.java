@@ -11,6 +11,7 @@ import java.util.function.Predicate;
  */
 public class PredicateTest {
 
+
     public <T> List<T> filter(List<T> list, Predicate<T> p) {
         List<T> results = new ArrayList<>();
         for(T t: list) {
@@ -24,7 +25,7 @@ public class PredicateTest {
     public static void main(String[] args) {
         PredicateTest predicateTest = new PredicateTest();
         List<String> listOfStrings = Arrays.asList("1", "2", "3");
-        Predicate<String> nonEmptyStringPredicate = (String s) -> !s.isEmpty(); //这里就是实现test方法的一个具体实例
+        Predicate<String> nonEmptyStringPredicate = (String s) -> !s.isEmpty(); //这里就是实现test方法的一个具体实例过滤空字符串
         List<String> nonEmpty = predicateTest.filter(listOfStrings, nonEmptyStringPredicate);
     }
 }

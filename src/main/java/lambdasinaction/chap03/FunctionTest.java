@@ -14,7 +14,7 @@ import java.util.function.Supplier;
  */
 public class FunctionTest {
 
-    //根据一个字符串List，生成对应的字符长度list
+
     public <T, R> List<R> map(List<T> list, Function<T, R> f) {
         List<R> result = new ArrayList<>();
         for(T t: list) {
@@ -25,6 +25,7 @@ public class FunctionTest {
 
     public static void main(String[] args) {
         FunctionTest functionTest = new FunctionTest();
+        ////根据一个字符串List，生成对应的字符长度list
         List<Integer> l = functionTest.map(
                 Arrays.asList("lambdas", "in", "action"),
                 (String s) -> s.length()
