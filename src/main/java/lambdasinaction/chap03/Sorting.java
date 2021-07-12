@@ -1,6 +1,5 @@
 package lambdasinaction.chap03;
 
-import static java.util.Comparator.comparing;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -58,7 +57,10 @@ public class Sorting {
     inventory.set(1, new Apple(10, Color.RED));
 
     //3.使用"方法引用" 排序
-    inventory.sort(comparing(Apple::getWeight)); //这个Apple::getWeight方法引用其实就是(Apple apple) -> apple.getWeight()的快捷写法
+    //TODO: 重点理解
+    Comparator<Apple> com = Comparator.comparing(Apple::getWeight);
+    Comparator<Apple> com1 = Comparator.comparing((p)-> p.getWeight());
+    inventory.sort(com); //这个Apple::getWeight方法引用其实就是(Apple apple) -> apple.getWeight()的快捷写法
     System.out.println(inventory);
 
     //1.静态方法引用例如：
