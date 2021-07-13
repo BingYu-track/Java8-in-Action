@@ -17,10 +17,10 @@ public class Test {
 
         //这里报错，因为现在抽象方法void show(T t,U u,P p);去掉第一个参数后，后面的参数和Person对象的setAgeAndName方法参数就不一样了
         //因此不能使用类名::实例方法名
-        MyInter<String,Person,Integer> inter2 = Person::setAgeAndName;
+        //MyInter<String,Person,Integer> inter2 = Person::setAgeAndName;
 
         //报错因为现在抽象方法void show(T t,U u,P p);去掉第一个参数后，后面的参数个数是2，Person对象的setAge方法参数只有一个，不一致
         //因此不能使用类名::实例方法名
-        MyInter<String,Person,Integer> inter3 = Person::setAge;
+        //MyInter<String,Person,Integer> inter3 = Person::setAge;
     }
 }

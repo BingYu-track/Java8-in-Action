@@ -1,6 +1,6 @@
 package lambdasinaction.chap03;
 
-enum Color {
+public enum Color {
   RED,
   GREEN
 }

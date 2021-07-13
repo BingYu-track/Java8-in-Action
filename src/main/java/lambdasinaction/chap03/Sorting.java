@@ -8,6 +8,7 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 import java.util.function.BiFunction;
+import java.util.function.BiPredicate;
 import java.util.function.Function;
 
 /**
@@ -56,6 +57,22 @@ public class Sorting {
     inventory.sort((a1, a2) -> a1.getWeight() - a2.getWeight());
     System.out.println(inventory);
 
+    //3.使用Comparator的comparing方法提取Comparator
+    Function<Apple, Integer> appleIntegerFunction = (Apple a) -> a.getWeight(); //Function的抽象方法接口: R apply(T t);
+    Comparator<Apple> c = Comparator.comparing(appleIntegerFunction);
+    inventory.sort(c);
+    //简化
+    inventory.sort(Comparator.comparing((Apple a) -> a.getWeight()));
+
+    //4.使用方法引用
+    inventory.sort(Comparator.comparing(Apple::getWeight));
+    //逆序排列
+    inventory.sort(Comparator.comparing(Apple::getWeight).reversed());
+
+    inventory.sort(Comparator.comparing(Apple::getWeight)
+            .reversed()
+            .thenComparing(Apple::getCountry)); //两个苹果一样重时，进一步按国家排序
+
     // reshuffling things a little
     inventory.set(1, new Apple(10, Color.RED));
 
@@ -80,6 +97,7 @@ public class Sorting {
     Comparator<String> compareToIgnoreCase = String::compareToIgnoreCase;
     strs.sort(String::compareToIgnoreCase);
     //strs.sort(String::length);
+
   }
 
   public static void test(int i) {
