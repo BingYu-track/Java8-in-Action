@@ -1,11 +1,14 @@
 package lambdasinaction.chap03;
 
 
+import java.awt.*;
+import java.io.FilenameFilter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 import java.util.function.BiFunction;
+import java.util.function.Function;
 
 /**
  * 方法引用
@@ -58,8 +61,10 @@ public class Sorting {
 
     //3.使用"方法引用" 排序
     //TODO: 重点理解
-    Comparator<Apple> com = Comparator.comparing(Apple::getWeight);
-    Comparator<Apple> com1 = Comparator.comparing((p)-> p.getWeight());
+    Function<Apple, Integer> getWeight = Apple::getWeight;
+    Function<Apple, Integer> getWeight2 = (Apple p) -> p.getWeight();
+    Comparator<Apple> com = Comparator.comparing(getWeight);
+    Comparator<Apple> com1 = Comparator.comparing(getWeight2);
     inventory.sort(com); //这个Apple::getWeight方法引用其实就是(Apple apple) -> apple.getWeight()的快捷写法
     System.out.println(inventory);
 
@@ -71,6 +76,8 @@ public class Sorting {
     String str = "123";
     str.length();
     List<String> strs = Arrays.asList("a","b","A","B");
+    Comparator<String> stringComparator = (String s1, String s2) -> s1.compareToIgnoreCase(s2);
+    Comparator<String> compareToIgnoreCase = String::compareToIgnoreCase;
     strs.sort(String::compareToIgnoreCase);
     //strs.sort(String::length);
   }
