@@ -8,6 +8,9 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+/**
+ * 对比java7和Java8用来筛选低热量的菜单
+ */
 public class StreamBasic {
 
   public static void main(String... args) {
@@ -21,7 +24,7 @@ public class StreamBasic {
   }
 
   public static List<String> getLowCaloricDishesNamesInJava7(List<Dish> dishes) {
-    List<Dish> lowCaloricDishes = new ArrayList<>();
+    List<Dish> lowCaloricDishes = new ArrayList<>(); //低热量菜单
     for (Dish d : dishes) {
       if (d.getCalories() < 400) {
         lowCaloricDishes.add(d);
