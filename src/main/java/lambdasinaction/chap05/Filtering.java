@@ -14,7 +14,9 @@ import lambdasinaction.chap04.Dish;
 public class Filtering {
 
   public static void main(String... args) {
-    // Filtering with predicate 筛选操作
+    /**
+     * 流的筛选操作
+     */
     System.out.println("Filtering with a predicate");
     List<Dish> vegetarianMenu = menu.stream()
         .filter(Dish::isVegetarian)
@@ -28,9 +30,10 @@ public class Filtering {
         .filter(i -> i % 2 == 0)
         .distinct()
         .forEach(System.out::println);
-
-    // Slicing a stream  分片流
-    // This list is sorted in ascending order of number of calories!
+    /**
+     * 流的切片操作
+     */
+    //1.filter
     List<Dish> specialMenu = Arrays.asList(
         new Dish("season fruit", true, 120, Dish.Type.OTHER),
         new Dish("rice", true, 350, Dish.Type.OTHER),
@@ -53,11 +56,12 @@ public class Filtering {
     System.out.println("filter筛选结果:");
     filteredMenu.forEach(System.out::println);
 
+    //2.takeWhile()
     System.out.println("使用takeWhile()对菜单进行筛选:"); //找出小于320卡热量的菜单
     List<Dish> slicedMenu1 = specialMenu.stream()
         .takeWhile(dish -> {
           System.out.println(dish.getName());
-          return dish.getCalories() < 320; ////一旦遇到元素的断言为false就停止处理
+          return dish.getCalories() < 320; //一旦遇到元素的断言为false就停止处理
         })
         .collect(toList());
     /*takeWhile方法遍历打印的结果:
@@ -67,7 +71,10 @@ public class Filtering {
     */
     System.out.println("takeWhile的筛选结果:");
     slicedMenu1.forEach(System.out::println);
+//    takeWhile的筛选结果:
+//    season fruit
 
+    //3.dropWhile()
     System.out.println("使用dropWhile()对菜单进行筛选:"); //找出大于320卡热量的菜单
     List<Dish> slicedMenu2 = specialMenu.stream()
         .dropWhile(dish -> {
@@ -77,24 +84,22 @@ public class Filtering {
     /*dropWhile方法遍历打印的结果:
       season fruit
       rice
-
-
      */
     System.out.println("dropWhile的筛选结果:");
     slicedMenu2.forEach(System.out::println);
 
-    // Truncating a stream
+    // Truncating a stream 截取流
     List<Dish> dishesLimit3 = menu.stream()
         .filter(d -> d.getCalories() > 300)
-        .limit(3)
+        .limit(3) //选出头三个
         .collect(toList());
     System.out.println("Truncating a stream:");
     dishesLimit3.forEach(System.out::println);
 
-    // Skipping elements
+    // Skipping elements 跳过元素
     List<Dish> dishesSkip2 = menu.stream()
         .filter(d -> d.getCalories() > 300)
-        .skip(2)
+        .skip(2) //扔掉前2个元素
         .collect(toList());
     System.out.println("Skipping elements:");
     dishesSkip2.forEach(System.out::println);

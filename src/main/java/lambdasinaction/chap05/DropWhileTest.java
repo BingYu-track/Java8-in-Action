@@ -11,7 +11,7 @@ import static java.util.stream.Collectors.toList;
  * @author: bingyu
  * @date: 2021/7/15
  */
-public class Test {
+public class DropWhileTest {
 
     public static void main(String[] args) {
         List<String> list = Stream.of("a", "b", "c", "", "e", "f").dropWhile(s -> {
