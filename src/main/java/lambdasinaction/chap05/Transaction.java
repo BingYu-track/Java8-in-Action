@@ -2,6 +2,9 @@ package lambdasinaction.chap05;
 
 import java.util.Objects;
 
+/**
+ * 交易
+ */
 public class Transaction {
 
   private Trader trader;
