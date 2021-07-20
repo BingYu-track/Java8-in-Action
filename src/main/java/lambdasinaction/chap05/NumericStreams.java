@@ -8,6 +8,9 @@ import java.util.stream.Stream;
 
 import lambdasinaction.chap04.Dish;
 
+/**
+ * 数值流
+ */
 public class NumericStreams {
 
   public static void main(String... args) {
