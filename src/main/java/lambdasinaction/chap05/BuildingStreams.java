@@ -52,13 +52,13 @@ public class BuildingStreams {
      * 5.函数生成流
      */
 
-    // 5.1 Stream.iterate
+    // 5.1 Stream.iterate 产生的值有序且连续，由于会不断计算，产生的值没有边界，因此使用该方法时必须使用limit进行限制
     Stream.iterate(0, n -> n + 2)
         .limit(10)
         .forEach(System.out::println);
 
     // Fibonacci with iterate
-    Stream.iterate(new int[] { 0, 1 }, t -> new int[] { t[1], t[0] + t[1] })
+    Stream.iterate(new int[] { 0, 1 }, t -> new int[] { t[1], t[0] + t[1] }) //这里lambda表达式里的t就是前面初始值数组，后续会不断计算
         .limit(10)
         .forEach(t -> System.out.printf("(%d, %d)", t[0], t[1]));
 
@@ -67,7 +67,11 @@ public class BuildingStreams {
         .map(t -> t[0])
         .forEach(System.out::println);
 
-    // random stream of doubles with Stream.generate
+    //java9中对Stream的iterate方法进行了增强，可以支持predicate操作，作为第二个参数传入，在这里就是判断大于100时停止内部迭代！
+    IntStream.iterate(0, n -> n < 100, n -> n + 4)
+            .forEach(System.out::println);
+
+    //5.2 random stream of doubles with Stream.generate
     Stream.generate(Math::random)
         .limit(10)
         .forEach(System.out::println);
