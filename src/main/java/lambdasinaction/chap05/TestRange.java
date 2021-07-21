@@ -28,19 +28,19 @@ public class TestRange {
 
         //问题分解1: 筛选成立的组合(假设我们给出了a值)
         //Math.sqrt()方法是对传入的参数进开方，Math.sqrt(a*a + b*b) % 1 == 0 这里是判断a,b的平方和，开方后是不是正整数
-        IntStream.rangeClosed(1, 100).filter(b -> Math.sqrt(a*a + b*b) % 1 == 0);
-
-        //问题分解2: 生成三元勾股数组
-        IntStream intStream = IntStream.rangeClosed(1, 100).filter(b -> Math.sqrt(a * a + b * b) % 1 == 0)
-                .map(b -> new int[]{a, b, Math.sqrt(a * a + b * b)});
-        //注意，上面虽然我们map映射的是数组，但是我们用的是IntStream数值流，最终返回的还是数值流，因此我们要想办法转换成对象流
-        //修改后，这样才是返回的是数组流:
-        Stream<int[]> stream = IntStream.rangeClosed(1, 100).filter(b -> Math.sqrt(a * a + b * b) % 1 == 0)
-                .boxed().map(b -> new int[]{a, b, Math.sqrt(a * a + b * b)});
-
-        //或者这样修改
-        Stream<int[]> stream1 = IntStream.rangeClosed(1, 100).filter(b -> Math.sqrt(a * a + b * b) % 1 == 0)
-                .mapToObj(b -> new int[]{a, b, Math.sqrt(a * a + b * b)});
+//        IntStream.rangeClosed(1, 100).filter(b -> Math.sqrt(a*a + b*b) % 1 == 0);
+//
+//        //问题分解2: 生成三元勾股数组
+//        IntStream intStream = IntStream.rangeClosed(1, 100).filter(b -> Math.sqrt(a * a + b * b) % 1 == 0)
+//                .map(b -> new int[]{a, b, Math.sqrt(a * a + b * b)});
+//        //注意，上面虽然我们map映射的是数组，但是我们用的是IntStream数值流，最终返回的还是数值流，因此我们要想办法转换成对象流
+//        //修改后，这样才是返回的是数组流:
+//        Stream<int[]> stream = IntStream.rangeClosed(1, 100).filter(b -> Math.sqrt(a * a + b * b) % 1 == 0)
+//                .boxed().map(b -> new int[]{a, b, Math.sqrt(a * a + b * b)});
+//
+//        //或者这样修改
+//        Stream<int[]> stream1 = IntStream.rangeClosed(1, 100).filter(b -> Math.sqrt(a * a + b * b) % 1 == 0)
+//                .mapToObj(b -> new int[]{a, b, Math.sqrt(a * a + b * b)});
 
         //问题分解3: 上面就差一个a值
         Stream<int[]> stream2 = IntStream.rangeClosed(1, 100).boxed()
