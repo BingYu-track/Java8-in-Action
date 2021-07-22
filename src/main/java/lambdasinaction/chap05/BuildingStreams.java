@@ -104,6 +104,8 @@ public class BuildingStreams {
       }
 
     };
+
+
     IntStream.generate(fib)
         .limit(10)
         .forEach(System.out::println);
