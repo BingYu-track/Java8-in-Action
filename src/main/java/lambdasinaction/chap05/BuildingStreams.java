@@ -49,7 +49,7 @@ public class BuildingStreams {
 
 
     /**
-     * 5.函数生成流
+     * 5.函数生成无限流
      */
 
     // 5.1 Stream.iterate 产生的值有序且连续，由于会不断计算，产生的值没有边界，因此使用该方法时必须使用limit进行限制
@@ -71,7 +71,7 @@ public class BuildingStreams {
     IntStream.iterate(0, n -> n < 100, n -> n + 4)
             .forEach(System.out::println);
 
-    //5.2 random stream of doubles with Stream.generate
+    //5.2 Stream.generate
     Stream.generate(Math::random)
         .limit(10)
         .forEach(System.out::println);
@@ -81,6 +81,7 @@ public class BuildingStreams {
         .limit(5)
         .forEach(System.out::println);
 
+
     IntStream.generate(new IntSupplier() {
       @Override
       public int getAsInt() {
@@ -88,13 +89,14 @@ public class BuildingStreams {
       }
     }).limit(5).forEach(System.out::println);
 
+    //重要: generate方法传的是可以自己定义字段的，但是iterator方法就不行，因为iterator要求传的是一个final类型
     IntSupplier fib = new IntSupplier() {
 
-      private int previous = 0;
+      private int previous = 0; //通过字段定义了状态
       private int current = 1;
 
       @Override
-      public int getAsInt() {
+      public int getAsInt() { //再通过方法可以修改状态
         int nextValue = previous + current;
         previous = current;
         current = nextValue;
