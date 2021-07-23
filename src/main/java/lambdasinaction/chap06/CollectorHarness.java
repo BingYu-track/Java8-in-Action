@@ -2,6 +2,9 @@ package lambdasinaction.chap06;
 
 import java.util.function.Consumer;
 
+/**
+ * Collector
+ */
 public class CollectorHarness {
 
   public static void main(String[] args) {

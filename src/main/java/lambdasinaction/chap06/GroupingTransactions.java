@@ -8,6 +8,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * 比较两个不同编程代码的分组
+ */
 public class GroupingTransactions {
 
   public static List<Transaction> transactions = Arrays.asList(
@@ -31,6 +34,7 @@ public class GroupingTransactions {
     groupFunctionally();
   }
 
+  //1.java8之前的传统分组代码
   private static void groupImperatively() {
     Map<Currency, List<Transaction>> transactionsByCurrencies = new HashMap<>();
     for (Transaction transaction : transactions) {
@@ -46,6 +50,7 @@ public class GroupingTransactions {
     System.out.println(transactionsByCurrencies);
   }
 
+  //2.java8后的函数式编程分组
   private static void groupFunctionally() {
     Map<Currency, List<Transaction>> transactionsByCurrencies = transactions.stream()
         .collect(groupingBy(Transaction::getCurrency));

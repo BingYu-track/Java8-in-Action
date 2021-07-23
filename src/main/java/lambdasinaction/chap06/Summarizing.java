@@ -1,62 +1,44 @@
 package lambdasinaction.chap06;
 
-import static java.util.stream.Collectors.averagingInt;
-import static java.util.stream.Collectors.counting;
-import static java.util.stream.Collectors.joining;
-import static java.util.stream.Collectors.reducing;
-import static java.util.stream.Collectors.summarizingInt;
-import static java.util.stream.Collectors.summingInt;
-import static lambdasinaction.chap06.Dish.menu;
-
 import java.util.Comparator;
 import java.util.IntSummaryStatistics;
-import java.util.function.BinaryOperator;
+import java.util.Optional;
 
+import static lambdasinaction.chap06.Dish.menu;
+import static java.util.stream.Collectors.*; //导入Collectors类的所有静态工厂方法
+
+/**
+ * @version 1.0
+ * @Description: 汇总
+ * @author: bingyu
+ * @date: 2021/7/23
+ */
 public class Summarizing {
 
-  public static void main(String... args) {
-    System.out.println("Nr. of dishes: " + howManyDishes());
-    System.out.println("The most caloric dish is: " + findMostCaloricDish());
-    System.out.println("The most caloric dish is: " + findMostCaloricDishUsingComparator());
-    System.out.println("Total calories in menu: " + calculateTotalCalories());
-    System.out.println("Average calories in menu: " + calculateAverageCalories());
-    System.out.println("Menu statistics: " + calculateMenuStatistics());
-    System.out.println("Short menu: " + getShortMenu());
-    System.out.println("Short menu comma separated: " + getShortMenuCommaSeparated());
-  }
+    public static void main(String[] args) {
+        //1.查找最大值
+        Comparator<Dish> dishCaloriesComparator = Comparator.comparingInt(Dish::getCalories);
+        Optional<Dish> mostCalorieDish = menu.stream().collect(maxBy(dishCaloriesComparator));
+        System.out.println(mostCalorieDish.get()); //pork
 
-  private static long howManyDishes() {
-    return menu.stream().collect(counting());
-  }
+        //2.查找最小值
+        Optional<Dish> minCalorieDish = menu.stream().collect(minBy(dishCaloriesComparator));
+        System.out.println(minCalorieDish.get()); //season fruit
 
-  private static Dish findMostCaloricDish() {
-    return menu.stream().collect(reducing((d1, d2) -> d1.getCalories() > d2.getCalories() ? d1 : d2)).get();
-  }
+        //3.求菜单总热量
+        int totalCalories = menu.stream().collect(summingInt(Dish::getCalories));
+        System.out.println(totalCalories); //4300
 
-  private static Dish findMostCaloricDishUsingComparator() {
-    Comparator<Dish> dishCaloriesComparator = Comparator.comparingInt(Dish::getCalories);
-    BinaryOperator<Dish> moreCaloricOf = BinaryOperator.maxBy(dishCaloriesComparator);
-    return menu.stream().collect(reducing(moreCaloricOf)).get();
-  }
+        //4.计算菜单的平均热量
+        double avgCalories = menu.stream().collect(averagingInt(Dish::getCalories));
+        System.out.println(avgCalories); //477.77777777777777
 
-  private static int calculateTotalCalories() {
-    return menu.stream().collect(summingInt(Dish::getCalories));
-  }
+        //5.通过一次summarizing 操作你就可以数出菜单中元素的个数，并得到菜肴热量总和、平均值、最大值和最小值：
+        IntSummaryStatistics menuStatistics = menu.stream().collect(summarizingInt(Dish::getCalories));
+        System.out.println(menuStatistics); //IntSummaryStatistics{count=9, sum=4300, min=120, average=477.777778, max=800}
+        //当然还有summarizingLong和summarizingDouble方法，对应LongSummaryStatistics和DoubleSummaryStatistics
 
-  private static Double calculateAverageCalories() {
-    return menu.stream().collect(averagingInt(Dish::getCalories));
-  }
+        //6.
 
-  private static IntSummaryStatistics calculateMenuStatistics() {
-    return menu.stream().collect(summarizingInt(Dish::getCalories));
-  }
-
-  private static String getShortMenu() {
-    return menu.stream().map(Dish::getName).collect(joining());
-  }
-
-  private static String getShortMenuCommaSeparated() {
-    return menu.stream().map(Dish::getName).collect(joining(", "));
-  }
-
+    }
 }
