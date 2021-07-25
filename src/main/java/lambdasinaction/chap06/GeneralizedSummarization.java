@@ -17,7 +17,7 @@ public class GeneralizedSummarization {
 
     public static void main(String[] args) {
 
-        //使用Collectors.reducing方法找出最高热量的菜
+        //使用Collectors.reducing三个参数的方法找出最高热量的菜
         int totalCalories = menu.stream().collect(
                 reducing(0, Dish::getCalories, (i, j) -> i + j));
 
@@ -27,7 +27,7 @@ public class GeneralizedSummarization {
          第三个参数是一个BinaryOperator，将两个项目累积成一个同类型的值。这里它就是对两个int 求和
          */
 
-        //使用下面这样一个参数形式的reducing方法来找到热量最高的菜
+        //使用下面这样只有一个参数形式的reducing方法来找到热量最高的菜
         //它把流中的第一个元素作为起点，把恒等函数（即一个函数仅仅是返回其输入参数）作为一个转换函数。这
         //也意味着，要是把单参数reducing方法生成的Collector传递给空流的collect方法，收集器就没有起点；因此它返回一个Optional<Dish>对象。
         Optional<Dish> mostCalorieDish = menu.stream().collect(reducing(
