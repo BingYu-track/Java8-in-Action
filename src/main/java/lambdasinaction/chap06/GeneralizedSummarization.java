@@ -17,17 +17,22 @@ public class GeneralizedSummarization {
 
     public static void main(String[] args) {
 
-        //使用Collectors.reducing三个参数的方法找出最高热量的菜
-        int totalCalories = menu.stream().collect(
-                reducing(0, Dish::getCalories, (i, j) -> i + j));
-
+        //方法一: 使用Collectors.reducing三个参数的方法找出最高热量的菜
         /*
          第一个参数是归约操作的起始值，也是流中没有元素时的返回值，所以很显然对于数值和而言0 是一个合适的值。
          第二个参数就是一个转换函数，将菜肴转换成一个表示其所含热量的int。
-         第三个参数是一个BinaryOperator，将两个项目累积成一个同类型的值。这里它就是对两个int 求和
+         第三个参数是一个BinaryOperator，将两个项目累积成一个同类型的值，也就是累积函数。这里它就是对两个int 求和
          */
 
-        //使用下面这样只有一个参数形式的reducing方法来找到热量最高的菜
+        int totalCalories = menu.stream().collect(
+                reducing(0, Dish::getCalories, (i, j) -> i + j));
+
+        //方法二: 第3个参数不适用lambda表达式
+        totalCalories = menu.stream().collect(reducing(0,
+                Dish::getCalories,
+                Integer::sum));
+
+        //方法三: 使用下面这样只有一个参数形式的reducing方法来找到热量最高的菜
         //它把流中的第一个元素作为起点，把恒等函数（即一个函数仅仅是返回其输入参数）作为一个转换函数。这
         //也意味着，要是把单参数reducing方法生成的Collector传递给空流的collect方法，收集器就没有起点；因此它返回一个Optional<Dish>对象。
         Optional<Dish> mostCalorieDish = menu.stream().collect(reducing(
@@ -35,7 +40,7 @@ public class GeneralizedSummarization {
         System.out.println(mostCalorieDish);
 
         /*
-            Collector.reducing和Stream的reduce方法有什么区别？
+            Collector.reducing和Stream的reduce方法的区别
          */
         Stream<Integer> stream = Arrays.asList(1, 2, 3, 4, 5, 6).stream();
         //实现toList Collector 所做的工作
@@ -67,5 +72,7 @@ public class GeneralizedSummarization {
                 }
         );
         System.out.println(numbers);
+
+
     }
 }

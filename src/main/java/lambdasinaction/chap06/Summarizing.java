@@ -3,6 +3,7 @@ package lambdasinaction.chap06;
 import java.util.Comparator;
 import java.util.IntSummaryStatistics;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import static lambdasinaction.chap06.Dish.menu;
 import static java.util.stream.Collectors.*; //导入Collectors类的所有静态工厂方法
@@ -39,6 +40,5 @@ public class Summarizing {
         //当然还有summarizingLong和summarizingDouble方法，对应LongSummaryStatistics和DoubleSummaryStatistics
 
         //6.
-
     }
 }
