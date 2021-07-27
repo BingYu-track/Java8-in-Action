@@ -29,7 +29,7 @@ public class PartitionPrimeNumbers {
   }
 
   //判断待测数是否是质数
-  public boolean isPrime1(int candidate) {
+  public boolean isPrimeTest1(int candidate) {
     return IntStream.range(2, candidate) //从2开始，直至但不包括待测数
             .noneMatch(i -> candidate % i == 0); //如果待测数字不能被流中任何数字整除则返回true
   }
@@ -44,7 +44,7 @@ public class PartitionPrimeNumbers {
     举例说明: 24的因数有1、2、3、4、6、8、12、24
     按定义应该用2－23去除，但经过分析上面的数可以发现
     1×24、2×12、3×8、4×6 如果2、3、4是某个数的因数，那么另外几个数也是，反之也一样所以为提高效率，
-    可以只检查小于该数平方根的那些数，如24的平方根大于4小于5，检查2－4就可以了！
+    可以只检查小于该数平方根的那些数，如24的平方根大于4小于5，检查2~4就可以了！
    */
 
   //判断待测数是否是质数，这里对上一步进行了优化，仅测试小于等于待测数平方根的因子
@@ -55,7 +55,7 @@ public class PartitionPrimeNumbers {
   }
 
   /**
-   * 判断2到n这个数范围内，进行分区，哪些是质数，哪些不是质数
+   * 将前n个自然数按质数和非质数分区
    * @param n
    * @return
    */
@@ -75,18 +75,48 @@ public class PartitionPrimeNumbers {
     }
    */
 
-
-  public static Map<Boolean, List<Integer>> partitionPrimesWithCustomCollector(int n) {
-    return IntStream.rangeClosed(2, n).boxed().collect(new PrimeNumbersCollector());
+  //将上面的isPrime(int candidate)方法进一步优化
+  public boolean isPrimeTest2(int candidate) {
+    int candidateRoot = (int) Math.sqrt((double) candidate); //获取待测数开根方后的整数candidateRoot
+    return IntStream.rangeClosed(2, candidateRoot)  //直接从2开始到candidateRoot进行遍历执行
+                    .noneMatch(i -> candidate % i == 0);
   }
 
 
+  /*
+    优化点: 仅看被测试数是不是能够被测试数之前的质数整除。
+    数学思想: 根据"算数基本定理" 任何一个大于1的自然数 N,如果N不为质数，那么N可以唯一分解成有限个质数的乘积;
+    因此如果被测试数无法被分解成质数的乘积，则说明该测试数就是质数，因此仅看被测试数是否能够被测试数之前的质数整除
+    就能判断测试数是否是质数了。
 
+    然而我们目前所见的预定义收集器的问题，也就是必须自己开发一个收集器的原因在于，在收集过程中是没有办法访问部分结果的。这意味
+    着，当测试某一个数字是否是质数的时候，你没法访问目前已经找到的其他质数的列表。假设你有这个列表，那就可以把它传给isPrime方法
+    ，将方法重写如下:
+   */
+  /**
+   * 判断被测数是否是质数
+   * @param primes 被测数之前的所有质数集合
+   * @param candidate 被测数
+   * @return
+   */
+  public static boolean isPrime(List<Integer> primes, int candidate) {
+    return primes.stream().noneMatch(i -> candidate % i == 0);
+  }
+
+
+  /**
+   * 判断被测数是否是质数（这里进行了进一步优化，结合了开方算法和"算数基本定理"，仅仅用小于被测数平方根的质数来测试）
+   * @param primes 被测数之前的所有质数集合
+   * @param candidate 待测数
+   * @return
+   */
   public static boolean isPrime(List<Integer> primes, Integer candidate) {
-    double candidateRoot = Math.sqrt(candidate);
-    //return takeWhile(primes, i -> i <= candidateRoot).stream().noneMatch(i -> candidate % i == 0);
-    return primes.stream().takeWhile(i -> i <= candidateRoot).noneMatch(i -> candidate % i == 0);
+    double candidateRoot = Math.sqrt(candidate); //被测数开方后的数candidateRoot
+    return primes.stream()
+                 .takeWhile(i -> i <= candidateRoot) //设置执行条件，即质数要小于等于candidateRoot
+                 .noneMatch(i -> candidate % i == 0); //匹配是否有质数能被待测数整除
   }
+
 
 /*
   public static <A> List<A> takeWhile(List<A> list, Predicate<A> p) {
@@ -101,45 +131,56 @@ public class PartitionPrimeNumbers {
   }
 */
 
-  public static class PrimeNumbersCollector
-      implements Collector<Integer, Map<Boolean, List<Integer>>, Map<Boolean, List<Integer>>> {
 
-    @Override
-    public Supplier<Map<Boolean, List<Integer>>> supplier() {
-      return () -> new HashMap<>() {{
-        put(true, new ArrayList<Integer>());
-        put(false, new ArrayList<Integer>());
-      }};
-    }
-
-    @Override
-    public BiConsumer<Map<Boolean, List<Integer>>, Integer> accumulator() {
-      return (Map<Boolean, List<Integer>> acc, Integer candidate) -> {
-        acc.get(isPrime(acc.get(true), candidate))
-            .add(candidate);
-      };
-    }
-
-    @Override
-    public BinaryOperator<Map<Boolean, List<Integer>>> combiner() {
-      return (Map<Boolean, List<Integer>> map1, Map<Boolean, List<Integer>> map2) -> {
-        map1.get(true).addAll(map2.get(true));
-        map1.get(false).addAll(map2.get(false));
-        return map1;
-      };
-    }
-
-    @Override
-    public Function<Map<Boolean, List<Integer>>, Map<Boolean, List<Integer>>> finisher() {
-      return i -> i;
-    }
-
-    @Override
-    public Set<Characteristics> characteristics() {
-      return Collections.unmodifiableSet(EnumSet.of(IDENTITY_FINISH));
-    }
-
+  public static Map<Boolean, List<Integer>> partitionPrimesWithCustomCollector(int n) {
+    return IntStream.rangeClosed(2, n).boxed().collect(new PrimeNumbersCollector());
   }
+
+
+
+
+  /**
+   * 自定义收集器
+   */
+//  public static class PrimeNumbersCollector
+//      implements Collector<Integer, Map<Boolean, List<Integer>>, Map<Boolean, List<Integer>>> {
+//
+//    @Override
+//    public Supplier<Map<Boolean, List<Integer>>> supplier() {
+//      return () -> new HashMap<>() {{
+//        put(true, new ArrayList<Integer>());
+//        put(false, new ArrayList<Integer>());
+//      }};
+//    }
+//
+//    @Override
+//    public BiConsumer<Map<Boolean, List<Integer>>, Integer> accumulator() {
+//      return (Map<Boolean, List<Integer>> acc, Integer candidate) -> {
+//        acc.get(isPrime(acc.get(true), candidate))
+//            .add(candidate);
+//      };
+//    }
+//
+//    @Override
+//    public BinaryOperator<Map<Boolean, List<Integer>>> combiner() {
+//      return (Map<Boolean, List<Integer>> map1, Map<Boolean, List<Integer>> map2) -> {
+//        map1.get(true).addAll(map2.get(true));
+//        map1.get(false).addAll(map2.get(false));
+//        return map1;
+//      };
+//    }
+//
+//    @Override
+//    public Function<Map<Boolean, List<Integer>>, Map<Boolean, List<Integer>>> finisher() {
+//      return i -> i;
+//    }
+//
+//    @Override
+//    public Set<Characteristics> characteristics() {
+//      return Collections.unmodifiableSet(EnumSet.of(IDENTITY_FINISH));
+//    }
+//
+//  }
 
   public Map<Boolean, List<Integer>> partitionPrimesWithInlineCollector(int n) {
     return Stream.iterate(2, i -> i + 1).limit(n)
