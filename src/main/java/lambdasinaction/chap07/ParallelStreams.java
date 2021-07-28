@@ -3,8 +3,22 @@ package lambdasinaction.chap07;
 import java.util.stream.LongStream;
 import java.util.stream.Stream;
 
+/**
+ * 并行流
+ */
 public class ParallelStreams {
 
+
+  /**  顺序流求和
+   * 接受数字n 作为参数，并返回从1 到给定参数的所有数字的和
+   * @param n
+   * @return
+   */
+  public static long sequentialSum(long n) {
+    return Stream.iterate(1L, i -> i + 1).limit(n).reduce(Long::sum).get();
+  }
+
+  //传统java代码求和
   public static long iterativeSum(long n) {
     long result = 0;
     for (long i = 0; i <= n; i++) {
@@ -13,12 +27,16 @@ public class ParallelStreams {
     return result;
   }
 
-  public static long sequentialSum(long n) {
-    return Stream.iterate(1L, i -> i + 1).limit(n).reduce(Long::sum).get();
-  }
-
+  /**  并行流求和
+   * 接受数字n 作为参数，并返回从1 到给定参数的所有数字的和
+   * @param n
+   * @return
+   */
   public static long parallelSum(long n) {
-    return Stream.iterate(1L, i -> i + 1).limit(n).parallel().reduce(Long::sum).get();
+    return Stream.iterate(1L, i -> i + 1)
+                 .limit(n)
+                 .parallel() //将流转换为并行流
+                 .reduce(Long::sum).get();
   }
 
   public static long rangedSum(long n) {

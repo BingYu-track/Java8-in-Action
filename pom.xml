@@ -13,16 +13,19 @@
   </properties>
 
   <dependencies>
+<!--    Java 微基准套件（Java microbenchmark harness，JMH） JMH 是一个以声明方式帮助大家创建简单、可靠微基准测试的工具集-->
     <dependency>
       <groupId>org.openjdk.jmh</groupId>
       <artifactId>jmh-core</artifactId>
       <version>1.21</version>
     </dependency>
+
     <dependency>
       <groupId>org.openjdk.jmh</groupId>
       <artifactId>jmh-generator-annprocess</artifactId>
       <version>1.21</version>
     </dependency>
+
     <dependency>
       <groupId>io.reactivex.rxjava2</groupId>
       <artifactId>rxjava</artifactId>

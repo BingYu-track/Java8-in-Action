@@ -16,17 +16,21 @@ import org.openjdk.jmh.annotations.State;
 import org.openjdk.jmh.annotations.TearDown;
 import org.openjdk.jmh.annotations.Warmup;
 
+/**
+ * 使用JMH测量对前n个自然数求和的函数的性能
+ * 注意: 使用maven package打包后才会在target下生成benchmarks.jar的JAR文件
+ */
 @State(Scope.Thread)
-@BenchmarkMode(Mode.AverageTime)
-@OutputTimeUnit(TimeUnit.MILLISECONDS)
-@Fork(value = 2, jvmArgs = { "-Xms4G", "-Xmx4G" })
-@Measurement(iterations = 2)
-@Warmup(iterations = 3)
+@BenchmarkMode(Mode.AverageTime) //测量用于执行基准测试目标方法所花费的平均时间
+@OutputTimeUnit(TimeUnit.MILLISECONDS) //以毫秒为单位，打印输出基准测试的结果
+@Fork(value = 2, jvmArgs = { "-Xms4G", "-Xmx4G" }) //采用4Gb 的堆，执行基准测试两次以获得基准测试的 更可靠的结果
+@Warmup(iterations = 3) //预热3次
+@Measurement(iterations = 2) //2轮测试
 public class ParallelStreamBenchmark {
 
   private static final long N = 10_000_000L;
 
-  @Benchmark
+  @Benchmark //基准测试的目标方法
   public long iterativeSum() {
     long result = 0;
     for (long i = 1L; i <= N; i++) {
