@@ -10,10 +10,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.function.BiConsumer;
-import java.util.function.BinaryOperator;
-import java.util.function.Function;
-import java.util.function.Supplier;
+import java.util.function.*;
 import java.util.stream.Collector;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
@@ -25,6 +22,8 @@ public class PartitionPrimeNumbers {
 
   public static void main(String ... args) {
     System.out.println("Numbers partitioned in prime and non-prime: " + partitionPrimes(100));
+    Integer candidate = 100;
+    boolean prime = isPrime(new ArrayList<Integer>(), candidate);
     System.out.println("Numbers partitioned in prime and non-prime: " + partitionPrimesWithCustomCollector(100));
   }
 
@@ -115,26 +114,36 @@ public class PartitionPrimeNumbers {
     return primes.stream()
                  .takeWhile(i -> i <= candidateRoot) //设置执行条件，即质数要小于等于candidateRoot
                  .noneMatch(i -> candidate % i == 0); //匹配是否有质数能被待测数整除
-  }
+  } //如果primes为空列表，结果会返回true，因为没有质数列表里没有数字，因此noneMatch(i -> candidate % i == 0)当然就会返回true了
 
 
-/*
+  //如果是Java8，模拟takeWhile
   public static <A> List<A> takeWhile(List<A> list, Predicate<A> p) {
     int i = 0;
     for (A item : list) {
-      if (!p.test(item)) {
+      if (!p.test(item)) { //如果谓词判断为false就停止执行
         return list.subList(0, i);
       }
       i++;
     }
     return list;
   }
-*/
 
 
   public static Map<Boolean, List<Integer>> partitionPrimesWithCustomCollector(int n) {
     return IntStream.rangeClosed(2, n).boxed().collect(new PrimeNumbersCollector());
   }
+  /*
+    output:
+    {
+      false=[4, 6, 8, 9, 10, 12, 14, 15, 16, 18, 20, 21, 22, 24, 25, 26, 27, 28, 30, 32, 33, 34,
+              35, 36, 38, 39, 40, 42, 44, 45, 46, 48, 49, 50, 51, 52, 54, 55, 56, 57, 58, 60, 62,
+              63, 64, 65, 66, 68, 69, 70, 72, 74, 75, 76, 77, 78, 80, 81, 82, 84, 85, 86, 87, 88,
+              90, 91, 92, 93, 94, 95, 96, 98, 99, 100],
+      true=[2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97]
+    }
+
+   */
 
 
 
