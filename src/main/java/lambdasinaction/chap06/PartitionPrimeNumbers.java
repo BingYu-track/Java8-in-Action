@@ -54,7 +54,7 @@ public class PartitionPrimeNumbers {
   }
 
   /**
-   * 将前n个自然数按质数和非质数分区
+   * 使用partitioningBy将前n个自然数按质数和非质数分区
    * @param n
    * @return
    */
@@ -145,51 +145,25 @@ public class PartitionPrimeNumbers {
 
    */
 
+  //前面是用PrimeNumbersCollector实现接口实现的收集器，现在使用Stream的collect方法自定义质数收集器
+  public Map<Boolean, List<Integer>> partitionPrimesWithCustomCollector2(int n) {
+    return IntStream.rangeClosed(2, n).boxed()
+            .collect(
+                    () -> new HashMap<Boolean, List<Integer>>() {{
+                      put(true, new ArrayList<Integer>());
+                      put(false, new ArrayList<Integer>());
+                    }},
+                    (acc, candidate) -> {
+                      acc.get( isPrime(acc.get(true), candidate) )
+                              .add(candidate);
+                    },
+                    (map1, map2) -> {
+                      map1.get(true).addAll(map2.get(true));
+                      map1.get(false).addAll(map2.get(false));
+                    });
+  } //相比PrimeNumbersCollector类实现的收集器，它的可读性会差一点，可重用性会差一点
 
 
-
-  /**
-   * 自定义收集器
-   */
-//  public static class PrimeNumbersCollector
-//      implements Collector<Integer, Map<Boolean, List<Integer>>, Map<Boolean, List<Integer>>> {
-//
-//    @Override
-//    public Supplier<Map<Boolean, List<Integer>>> supplier() {
-//      return () -> new HashMap<>() {{
-//        put(true, new ArrayList<Integer>());
-//        put(false, new ArrayList<Integer>());
-//      }};
-//    }
-//
-//    @Override
-//    public BiConsumer<Map<Boolean, List<Integer>>, Integer> accumulator() {
-//      return (Map<Boolean, List<Integer>> acc, Integer candidate) -> {
-//        acc.get(isPrime(acc.get(true), candidate))
-//            .add(candidate);
-//      };
-//    }
-//
-//    @Override
-//    public BinaryOperator<Map<Boolean, List<Integer>>> combiner() {
-//      return (Map<Boolean, List<Integer>> map1, Map<Boolean, List<Integer>> map2) -> {
-//        map1.get(true).addAll(map2.get(true));
-//        map1.get(false).addAll(map2.get(false));
-//        return map1;
-//      };
-//    }
-//
-//    @Override
-//    public Function<Map<Boolean, List<Integer>>, Map<Boolean, List<Integer>>> finisher() {
-//      return i -> i;
-//    }
-//
-//    @Override
-//    public Set<Characteristics> characteristics() {
-//      return Collections.unmodifiableSet(EnumSet.of(IDENTITY_FINISH));
-//    }
-//
-//  }
 
   public Map<Boolean, List<Integer>> partitionPrimesWithInlineCollector(int n) {
     return Stream.iterate(2, i -> i + 1).limit(n)

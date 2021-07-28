@@ -23,10 +23,10 @@ public class TestMethodRef {
      *     必须是实例方法的调用者，且其余参数的类型一样
      */
 
-    //类::静态方法名(指向静态方法的方法引用)
+    //1.类::静态方法名(指向静态方法的方法引用)
     public void test1() {
         //使用Integer的compare静态方法，因为Integer的compare方法与Comparator接口中的抽象方法的参数列表和返回值都一致
-        Comparator<Integer> com = (x,y) -> Integer.compare(x,y);
+        Comparator<Integer> com = (x,y) -> Integer.compare(x,y); //事实上这个lambda表达式是默认返回了
 
         //上个版本的另一种简化，两者是同等的
         Comparator<Integer> com1 = Integer::compare;
@@ -34,7 +34,7 @@ public class TestMethodRef {
 
 
 
-    //对象::实例方法名(指向任意类型实例方法的方法引用)
+    //2.对象::实例方法名(指向任意类型实例方法的方法引用)
     public void test2() {
         //第一种:
         Consumer<String> con = (x) -> System.out.println(x);
@@ -54,7 +54,7 @@ public class TestMethodRef {
 
     }
 
-    //类::实例方法名(指向任意类型实例方法的方法引用)
+    //3.类::实例方法名(指向任意类型实例方法的方法引用)
     //使用类::实例方法名是有条件的,它要求函数式接口的抽象方法的参数要比Lambda中实例方法参数多一个，而且Lambda参数列表中的第一个参数
     //必须是实例方法的调用者，而第二个参数是实例方法的参数时，可以使用类名::实例方法名
     public void test3(){

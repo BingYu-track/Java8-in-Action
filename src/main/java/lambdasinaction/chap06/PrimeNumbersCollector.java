@@ -31,7 +31,7 @@ public class PrimeNumbersCollector implements Collector<Integer, Map<Boolean, Li
     public BiConsumer<Map<Boolean, List<Integer>>, Integer> accumulator() {
         return (Map<Boolean, List<Integer>> acc, Integer candidate) -> { //注意这里第一次执行时，candidate=2，因为调用它的Stream就是从2开始的范围流
             List<Integer> primes = acc.get(true); //获取质数列表(第一次执行为空列表)
-            System.out.println("质数列表是否为空列表: "+primes.isEmpty());
+            //System.out.println("质数列表是否为空列表: "+primes.isEmpty());
             boolean isPrime = PartitionPrimeNumbers.isPrime(primes, candidate); //判断candidate是否是质数
             acc.get(isPrime).add(candidate); //根据isPrime的结果获取对应的质数列表或非质数列表，再将candidate添加到对应列表中
         };
