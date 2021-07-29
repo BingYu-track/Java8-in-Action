@@ -53,15 +53,22 @@ public class ParallelStreams {
     return accumulator.total;
   }
 
+  /*
+    这里将上一个方法改为并行
+   */
   public static long sideEffectParallelSum(long n) {
     Accumulator accumulator = new Accumulator();
     LongStream.rangeClosed(1, n).parallel().forEach(accumulator::add);
     return accumulator.total;
   }
 
+
+  /**
+   * 自定义静态内部类累加器
+   */
   public static class Accumulator {
 
-    private long total = 0;
+    private long total = 0; //累加变量
 
     public void add(long value) {
       total += value;

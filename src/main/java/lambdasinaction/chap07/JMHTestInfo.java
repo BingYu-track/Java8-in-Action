@@ -2,7 +2,7 @@ package lambdasinaction.chap07;
 
 /**
  * @version 1.0
- * @Description: 有关JMH基准测试的打印信息详解
+ * @Description: 有关JMH(Java Microbenchmark Harness)基准测试的打印信息详解
  * @author: bingyu
  * @date: 2021/7/28
  */
@@ -99,7 +99,15 @@ Result "lambdasinaction.chap07.ParallelStreamBenchmark.parallelSum":
   (min, avg, max) = (111.637, 114.172, 116.536), stdev = 2.552
   CI (99.9%): [97.681, 130.663] (assumes normal distribution)
 
-4.
+4.最后就是本次基准测试的最终报告
+Benchmark                                  Mode  Cnt    Score    Error  Units
+ParallelStreamBenchmark.iterativeSum       avgt    4    3.651 ±  0.132  ms/op
+ParallelStreamBenchmark.parallelRangedSum  avgt    4    5.239 ±  1.021  ms/op
+ParallelStreamBenchmark.parallelSum        avgt    4  119.937 ± 15.512  ms/op
+ParallelStreamBenchmark.rangedSum          avgt    4    4.501 ±  4.041  ms/op
+ParallelStreamBenchmark.sequentialSum      avgt    4   75.723 ± 34.910  ms/op
+
+注意这里Units是每次操作所花费的平均时间，因此，Score打分越高说明每次操作花费的时间越长，这里iterativeSum方法执行最快。并行流parallelRangedSum方法执行最慢
 */
 
 }
