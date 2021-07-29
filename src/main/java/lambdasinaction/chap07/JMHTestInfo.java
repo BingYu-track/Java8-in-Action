@@ -35,6 +35,8 @@ public class JMHTestInfo {
     time 指定每次迭代要花的时间
     timeUnit 指定每次迭代的时间单位
     batchSize  指定每次操作需要调用目标方法的次数
+    为什么需要预热?因为 JVM 的 JIT 机制的存在，如果某个函数被调用多次之后，JVM 会尝试将其编译成为机器码从而提高执行速度。
+    为了让Benchmark的结果更加接近真实情况就需要进行预热
 
     Mark: 注解@State
     @State用来指定指测试范围
@@ -43,7 +45,18 @@ public class JMHTestInfo {
     Scop.Thread  默认的State，会为每个测试线程分配一个实例，相互隔离，线程之间不会产生影响
 
     Mark: 注解@Fork
-    @Fork用来表示fork多少个线程
+    @Fork用来表示fork多少个线程,如果fork数是2的话，则JMH会fork出两个进程来进行测试。
+
+    Mark: 注解@Setup
+    方法注解，会在执行 benchmark 之前被执行，正如其名，主要用于初始化
+
+    Mark: @TearDown
+    方法注解，与@Setup 相对的，会在所有 benchmark 执行结束以后执行，主要用于资源的回收等
+    @Setup/@TearDown注解使用Level参数来指定何时调用fixture:
+
+    Level.Trial 默认level。全部benchmark运行(一组迭代)之前/之后
+    Level.Iteration 一次迭代之前/之后(一组调用)
+    Level.Invocation 每个方法调用之前/之后(不推荐使用，除非你清楚这样做的目的)
   */
 
 

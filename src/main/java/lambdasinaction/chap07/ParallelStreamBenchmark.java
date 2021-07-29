@@ -59,7 +59,7 @@ public class ParallelStreamBenchmark {
     return LongStream.rangeClosed(1, N).parallel().reduce(0L, Long::sum);
   }
 
-  @TearDown(Level.Invocation)
+  @TearDown(Level.Invocation) //尽量在每次基准测试迭代结束后都进行一次垃圾回收
   public void tearDown() {
     System.gc();
   }
