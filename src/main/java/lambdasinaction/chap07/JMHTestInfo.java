@@ -86,7 +86,7 @@ Result "lambdasinaction.chap07.ParallelStreamBenchmark.parallelSum":
   (min, avg, max) = (111.637, 114.172, 116.536), stdev = 2.552
   CI (99.9%): [97.681, 130.663] (assumes normal distribution)
 
-
+4.
 */
 
 }
