@@ -41,7 +41,7 @@ public class ForkJoinSumCalculator extends RecursiveTask<Long> { //继承Recursi
     //Mark:递归调用第二个子任务，获取第二个子任务的最终结果，这行代码相当于rightTask.fork(); Long rightResult = rightTask.join();
     Long rightResult = rightTask.compute();
     //Mark:读取第一个子任务的结果，如果尚未完成就等待,这行代码和上面的leftTask.fork()可以替换成Long leftResult = leftTask.compute();
-    Long leftResult = leftTask.join();
+    Long leftResult = leftTask.join(); //读取第一个子任务的结果，如果尚未完成就等待
     return leftResult + rightResult; //将2个子任务的结果进行合并
   }
 
