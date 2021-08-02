@@ -120,10 +120,6 @@ public class WordCount {
 
   }
 
-  /*
-      。每次遍历到Stream中的一个新的Character时，就会调用accumulate 方法
-   */
-
   /**
    * 基于单词计数器的可拆分迭代器
    */
