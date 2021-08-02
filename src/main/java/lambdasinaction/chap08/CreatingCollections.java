@@ -50,6 +50,7 @@ public class CreatingCollections {
         .collect(Collectors.toSet());
     System.out.println(friends4);
 
+    //Mark:使用的工厂方法List.of()创建列表，这个列表不能被修改
     System.out.println("--> Creating a List with List.of()");
     List<String> friends5 = List.of("Raphael", "Olivia", "Thibaut");
     System.out.println(friends5);
@@ -78,6 +79,7 @@ public class CreatingCollections {
 
     System.out.println("--> Trying to pass duplicate items to Set.of()");
     try {
+      //Mark:Set工厂方法创建不可变的Set集合
       Set<String> friends2 = Set.of("Raphael", "Olivia", "Olivia");
       System.out.println("We shouldn't get here...");
     }
@@ -88,9 +90,10 @@ public class CreatingCollections {
 
   private static void creatingMaps() {
     System.out.println("--> Creating a Map with Map.of()");
+    //Mark:小于10个键值对用Map.of
     Map<String, Integer> ageOfFriends = Map.of("Raphael", 30, "Olivia", 25, "Thibaut", 26);
     System.out.println(ageOfFriends);
-
+    //Mark:大于10个键值对用Map.ofEntries更好
     System.out.println("--> Creating a Map with Map.ofEntries()");
     Map<String, Integer> ageOfFriends2 = Map.ofEntries(
         entry("Raphael", 30),
