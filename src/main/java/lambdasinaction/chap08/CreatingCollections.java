@@ -11,6 +11,9 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+/**
+ * 集合工厂
+ */
 public class CreatingCollections {
 
   public static void main(String[] args) {
