@@ -8,16 +8,16 @@ public class StrategyMain {
   public static void main(String[] args) {
     //传统代码，需要创建不同类的对象IsNumeric、IsAllLowerCase
     Validator v1 = new Validator(new IsNumeric());
-    System.out.println(v1.validate("aaaa"));
+    System.out.println(v1.validate("aaaa")); //false
     Validator v2 = new Validator(new IsAllLowerCase());
-    System.out.println(v2.validate("bbbb"));
+    System.out.println(v2.validate("bbbb")); //true
 
     // with lambdas使用lambdas不再需要创建IsNumeric类和IsAllLowerCase类了，更加方便
     //Lambda 表达式避免了采用策略设计模式时僵化的模板代码
     Validator v3 = new Validator((String s) -> s.matches("\\d+"));
-    System.out.println(v3.validate("aaaa"));
+    System.out.println(v3.validate("aaaa")); //false
     Validator v4 = new Validator((String s) -> s.matches("[a-z]+"));
-    System.out.println(v4.validate("bbbb"));
+    System.out.println(v4.validate("bbbb")); //true
   }
 
   /**
