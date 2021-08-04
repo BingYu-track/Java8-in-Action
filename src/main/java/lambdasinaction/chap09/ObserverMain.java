@@ -3,6 +3,9 @@ package lambdasinaction.chap09;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * 观察者模式
+ */
 public class ObserverMain {
 
   public static void main(String[] args) {

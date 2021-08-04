@@ -1,5 +1,8 @@
 package lambdasinaction.chap09;
 
+/**
+ * 策略模式
+ */
 public class StrategyMain {
 
   public static void main(String[] args) {
@@ -16,6 +19,9 @@ public class StrategyMain {
     System.out.println(v4.validate("bbbb"));
   }
 
+  /**
+   *
+   */
   interface ValidationStrategy {
     boolean execute(String s);
   }
