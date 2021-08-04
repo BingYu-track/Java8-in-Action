@@ -66,7 +66,7 @@ public class DemoLogger {
         System.out.println("重载log方法................");
         logger.log(Level.FINER, "Problem: " + generateDiagnostic()); //执行了generateDiagnostic()方法
 
-        //3.使用Lambda的延迟机制
+        //3.使用Lambda的进行延迟调用
         System.out.println("lambda重载log方法............");
         logger.log(Level.FINER, () -> "Problem: " + generateDiagnostic()); //没有执行generateDiagnostic()方法
     }

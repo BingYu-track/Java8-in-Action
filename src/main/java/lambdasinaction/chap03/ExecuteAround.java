@@ -4,6 +4,9 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 
+/**
+ * 环绕执行
+ */
 public class ExecuteAround {
 
   private static final String FILE = ExecuteAround.class.getResource("./data.txt").getFile();
@@ -15,11 +18,11 @@ public class ExecuteAround {
 
     System.out.println("---");
 
-    String oneLine = processFile((BufferedReader b) -> b.readLine());
+    String oneLine = processFile((BufferedReader b) -> b.readLine()); //传入一个Lambda表达式
     System.out.println(oneLine);
 
     //读2行
-    String twoLines = processFile((BufferedReader b) -> b.readLine() + b.readLine());
+    String twoLines = processFile((BufferedReader b) -> b.readLine() + b.readLine()); ////传入另一个Lambda表达式
     System.out.println(twoLines);
   }
 
