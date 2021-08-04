@@ -42,8 +42,29 @@ public class MergeOnMaps {
         Map<String, String> everyone2 = new HashMap<>(family);
         friends2.forEach((k, v) ->
                 //BiFunction<? super V, ? super V, ? extends V>
-                //k、v是friends2的键值对，movie1和movie2分表是friends2和everyone2重复键的值
+                //k、v是friends2的键值对，movie1和movie2分表是everyone2和friends2重复键的值
                 everyone2.merge(k, v, (movie1, movie2) -> movie1 + " & " + movie2)); //如果存在重复的键，就连接两个值，将两值合并为一个值
         System.out.println(everyone2); //{Raphael=Star Wars, Cristina=James Bond & Matrix, Teo=Star Wars}
+
+        //3.merge方法处理空值逻辑，
+        Map<String, String> family3 = new HashMap<>();
+        family3.put("Teo", "Star Wars");
+        family3.put("Cristina", null);
+        Map<String, String> friends3 = new HashMap<>();
+        friends3.put("Raphael", "Star Wars");
+        friends3.put("Cristina", "Matrix");
+        Map<String, String> everyone3 = new HashMap<>(family3);
+        System.out.println("merge方法处理空值----------");
+        friends3.forEach((k, v) ->
+                //everyone3这个调用方的value作为旧值，如果为null，则以friends3中的value作为新的值进行代替，如果新的value值也为空就会删除该键值对
+                everyone3.merge(k, v, (movie1, movie2) -> movie1 + " & " + movie2)); //这里k、v是不能为空的，方法内部会进行非空校验，但是调用merge方法
+        //的map的value可以为空
+        System.out.println(everyone3); //{Raphael=Star Wars, Cristina=Matrix, Teo=Star Wars}
+
+        //4.
+        Map<String, Long> moviesToCount = new HashMap<>();
+        String movieName = "James Bond";
+        moviesToCount.merge(movieName, 1L, (key, count) -> count + 1L);
+        System.out.println(moviesToCount);
     }
 }
