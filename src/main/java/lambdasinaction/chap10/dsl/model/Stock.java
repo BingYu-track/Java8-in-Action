@@ -18,8 +18,8 @@ package lambdasinaction.chap10.dsl.model;
 
 public class Stock {
 
-  private String symbol;
-  private String market;
+  private String symbol; //股票编号
+  private String market; //市场
 
   public String getSymbol() {
     return symbol;

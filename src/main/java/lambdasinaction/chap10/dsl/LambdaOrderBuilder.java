@@ -22,13 +22,16 @@ import lambdasinaction.chap10.dsl.model.Order;
 import lambdasinaction.chap10.dsl.model.Stock;
 import lambdasinaction.chap10.dsl.model.Trade;
 
+/**
+ * 第三种DSL设计方法---Lambda表达式定义的函数序列
+ */
 public class LambdaOrderBuilder {
 
   private Order order = new Order();
 
   public static Order order(Consumer<LambdaOrderBuilder> consumer) {
     LambdaOrderBuilder builder = new LambdaOrderBuilder();
-    consumer.accept(builder);
+    consumer.accept(builder); //这个方法被传过来的lambda表达式实现，具体实现会调用下面的forCustomer()、buy()、sell()等方法
     return builder.order;
   }
 
@@ -46,9 +49,9 @@ public class LambdaOrderBuilder {
 
   private void trade(Consumer<TradeBuilder> consumer, Trade.Type type) {
     TradeBuilder builder = new TradeBuilder();
-    builder.trade.setType(type);
-    consumer.accept(builder);
-    order.addTrade(builder.trade);
+    builder.trade.setType(type); //设置交易类型
+    consumer.accept(builder); //这里传递的lambda表达式的accepr具体实现会调用TradeBuilder的quantity()、price()和stock()方法
+    order.addTrade(builder.trade); //订单里增加交易
   }
 
   public static class TradeBuilder {

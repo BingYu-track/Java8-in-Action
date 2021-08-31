@@ -63,6 +63,12 @@ public class Grouping {
     return menu.stream().collect(c);
   }
 
+  /**
+   * Collector构建器
+   * @param <T>
+   * @param <D>
+   * @param <K>
+   */
   public static class GroupingBuilder<T, D, K> {
 
     private final Collector<? super T, ?, Map<K, D>> collector;

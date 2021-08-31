@@ -22,19 +22,30 @@ import lambdasinaction.chap10.dsl.model.Order;
 import lambdasinaction.chap10.dsl.model.Stock;
 import lambdasinaction.chap10.dsl.model.Trade;
 
+/**
+ * 第二种DSL设计方法---嵌套函数
+ */
 public class NestedFunctionOrderBuilder {
 
+  /**
+   *
+   * @param customer 指定的客户名称
+   * @param trades 多笔交易
+   * @return
+   */
   public static Order order(String customer, Trade... trades) {
     Order order = new Order();
     order.setCustomer(customer);
-    Stream.of(trades).forEach(order::addTrade);
+    Stream.of(trades).forEach(order::addTrade); //将所有交易添加到订单中
     return order;
   }
 
+  //创建一个买入股票的交易
   public static Trade buy(int quantity, Stock stock, double price) {
     return buildTrade(quantity, stock, price, Trade.Type.BUY);
   }
 
+  //创建一个卖出股票的交易
   public static Trade sell(int quantity, Stock stock, double price) {
     return buildTrade(quantity, stock, price, Trade.Type.SELL);
   }

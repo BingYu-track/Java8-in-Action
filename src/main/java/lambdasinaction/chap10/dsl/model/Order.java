@@ -22,8 +22,8 @@ import java.util.stream.Collectors;
 
 public class Order {
 
-  private String customer;
-  private List<Trade> trades = new ArrayList<>();
+  private String customer; //客户
+  private List<Trade> trades = new ArrayList<>(); //订单里的多笔交易
 
   public void addTrade( Trade trade ) {
     trades.add( trade );

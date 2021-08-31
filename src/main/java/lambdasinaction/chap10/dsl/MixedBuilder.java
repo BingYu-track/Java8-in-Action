@@ -23,6 +23,9 @@ import lambdasinaction.chap10.dsl.model.Order;
 import lambdasinaction.chap10.dsl.model.Stock;
 import lambdasinaction.chap10.dsl.model.Trade;
 
+/**
+ * 第四种DSL设计方法---混合上面三种方式，取各自所长
+ */
 public class MixedBuilder {
 
   public static Order forCustomer(String customer, TradeBuilder... builders) {

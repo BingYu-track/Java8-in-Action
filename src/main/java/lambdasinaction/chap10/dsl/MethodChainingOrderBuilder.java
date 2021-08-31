@@ -20,32 +20,36 @@ import lambdasinaction.chap10.dsl.model.Order;
 import lambdasinaction.chap10.dsl.model.Stock;
 import lambdasinaction.chap10.dsl.model.Trade;
 
+/**
+ * 第一种DSL设计方法---方法链构
+ */
 public class MethodChainingOrderBuilder {
 
-  public final Order order = new Order();
+  public final Order order = new Order(); //封装的订单对象
 
   private MethodChainingOrderBuilder(String customer) {
     order.setCustomer(customer);
   }
 
+  //静态工厂方法，用于创建指定客户订单的构建器
   public static MethodChainingOrderBuilder forCustomer(String customer) {
     return new MethodChainingOrderBuilder(customer);
   }
 
-  public Order end() {
+  public Order end() { //终止创建订单，并返回订单
     return order;
   }
 
-  public TradeBuilder buy(int quantity) {
+  public TradeBuilder buy(int quantity) { //创建一个TradeBuilder，构造一个购买股票的交易
     return new TradeBuilder(this, Trade.Type.BUY, quantity);
   }
 
-  public TradeBuilder sell(int quantity) {
+  public TradeBuilder sell(int quantity) { //创建一个TradeBuilder，构造一个卖出股票的交易
     return new TradeBuilder(this, Trade.Type.SELL, quantity);
   }
 
   private MethodChainingOrderBuilder addTrade(Trade trade) {
-    order.addTrade(trade);
+    order.addTrade(trade); //向订单中添加交易
     return this;
   }
 
@@ -54,12 +58,19 @@ public class MethodChainingOrderBuilder {
     private final MethodChainingOrderBuilder builder;
     public final Trade trade = new Trade();
 
+    /**
+     * 构建交易的构建器
+     * @param builder
+     * @param type 交易类型
+     * @param quantity 交易数量
+     */
     private TradeBuilder(MethodChainingOrderBuilder builder, Trade.Type type, int quantity) {
       this.builder = builder;
       trade.setType(type);
       trade.setQuantity(quantity);
     }
 
+    //创建股票的构建器
     public StockBuilder stock(String symbol) {
       return new StockBuilder(builder, trade, symbol);
     }
@@ -76,6 +87,7 @@ public class MethodChainingOrderBuilder {
       this.trade = trade;
     }
 
+    //设置交易股票的单位价格
     public MethodChainingOrderBuilder at(double price) {
       trade.setPrice(price);
       return builder.addTrade(trade);
@@ -95,6 +107,7 @@ public class MethodChainingOrderBuilder {
       stock.setSymbol(symbol);
     }
 
+    //这个on方法负责设定股票市场，将股票添加到交易中
     public TradeBuilderWithStock on(String market) {
       stock.setMarket(market);
       trade.setStock(stock);
