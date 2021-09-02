@@ -21,7 +21,7 @@ import lambdasinaction.chap10.dsl.model.Stock;
 import lambdasinaction.chap10.dsl.model.Trade;
 
 /**
- * 第一种DSL设计方法---方法链构
+ * 第一种DSL设计方法---方法链构造(使用了"建造者模式")
  */
 public class MethodChainingOrderBuilder {
 
@@ -40,11 +40,13 @@ public class MethodChainingOrderBuilder {
     return order;
   }
 
-  public TradeBuilder buy(int quantity) { //创建一个TradeBuilder，构造一个购买股票的交易
+  //创建一个TradeBuilder，构造一个购买股票的交易
+  public TradeBuilder buy(int quantity) {
     return new TradeBuilder(this, Trade.Type.BUY, quantity);
   }
 
-  public TradeBuilder sell(int quantity) { //创建一个TradeBuilder，构造一个卖出股票的交易
+  //创建一个TradeBuilder，构造一个卖出股票的交易
+  public TradeBuilder sell(int quantity) {
     return new TradeBuilder(this, Trade.Type.SELL, quantity);
   }
 
@@ -53,6 +55,9 @@ public class MethodChainingOrderBuilder {
     return this;
   }
 
+  /**
+   * 静态内部类
+   */
   public static class TradeBuilder {
 
     private final MethodChainingOrderBuilder builder;
@@ -77,24 +82,10 @@ public class MethodChainingOrderBuilder {
 
   }
 
-  public static class TradeBuilderWithStock {
 
-    private final MethodChainingOrderBuilder builder;
-    private final Trade trade;
-
-    public TradeBuilderWithStock(MethodChainingOrderBuilder builder, Trade trade) {
-      this.builder = builder;
-      this.trade = trade;
-    }
-
-    //设置交易股票的单位价格
-    public MethodChainingOrderBuilder at(double price) {
-      trade.setPrice(price);
-      return builder.addTrade(trade);
-    }
-
-  }
-
+  /**
+   * 静态内部类
+   */
   public static class StockBuilder {
 
     private final MethodChainingOrderBuilder builder;
@@ -115,5 +106,28 @@ public class MethodChainingOrderBuilder {
     }
 
   }
+
+  /**
+   * 静态内部类
+   */
+  public static class TradeBuilderWithStock {
+
+    private final MethodChainingOrderBuilder builder;
+    private final Trade trade;
+
+    public TradeBuilderWithStock(MethodChainingOrderBuilder builder, Trade trade) {
+      this.builder = builder;
+      this.trade = trade;
+    }
+
+    //设置交易股票的单位价格
+    public MethodChainingOrderBuilder at(double price) {
+      trade.setPrice(price);
+      return builder.addTrade(trade);
+    }
+
+  }
+
+
 
 }

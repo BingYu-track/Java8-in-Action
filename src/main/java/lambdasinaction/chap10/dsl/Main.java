@@ -29,9 +29,9 @@ public class Main {
     Main main = new Main();
     main.plain();
     main.methodChaining();
-    main.nestedFunction();
-    main.lambda();
-    main.mixed();
+//    main.nestedFunction();
+//    main.lambda();
+//    main.mixed();
   }
 
   //命令式
@@ -82,7 +82,7 @@ public class Main {
         .stock("GOOGLE")
             .on("NASDAQ")
         .at(375.00)
-        .end();
+        .end();  //最终创建了订单order
 
     System.out.println("Method chaining:");
     System.out.println(order);
@@ -141,15 +141,19 @@ public class Main {
   //使用混合的风格
   public void mixed() {
     Order order =
-        MixedBuilder.forCustomer("BigBank",
-            MixedBuilder.buy(t -> t.quantity(80)
-                .stock("IBM")
+        MixedBuilder.forCustomer("BigBank",  //顶层使用了"嵌套函数"的设计模式
+            //参数2
+            MixedBuilder.buy(t -> t.quantity(80)  //这里创建单个交易使用了"lambda表达式"
+                .stock("IBM")  //从这里开始使用了"方法链接的模式"
                 .on("NYSE")
                 .at(125.00)),
+
+            //参数3
             MixedBuilder.sell(t -> t.quantity(50)
                 .stock("GOOGLE")
                 .on("NASDAQ")
-                .at(375.00)));
+                .at(375.00))
+        );
 
     System.out.println("Mixed:");
     System.out.println(order);
