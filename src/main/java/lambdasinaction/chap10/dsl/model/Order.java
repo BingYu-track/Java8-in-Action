@@ -37,7 +37,7 @@ public class Order {
     this.customer = customer;
   }
 
-  public double getValue() {
+  public double getValue() { //将每笔对应的交易映射成，每笔交易的总金额，并求和
     return trades.stream().mapToDouble( Trade::getValue ).sum();
   }
 

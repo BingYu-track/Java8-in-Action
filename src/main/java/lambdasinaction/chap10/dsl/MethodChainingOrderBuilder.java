@@ -123,7 +123,7 @@ public class MethodChainingOrderBuilder {
     //设置交易股票的单位价格
     public MethodChainingOrderBuilder at(double price) {
       trade.setPrice(price);
-      return builder.addTrade(trade);
+      return builder.addTrade(trade); //实际上这里是将trade增加到了order里
     }
 
   }

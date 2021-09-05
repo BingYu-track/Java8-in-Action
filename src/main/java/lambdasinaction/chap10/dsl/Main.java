@@ -67,7 +67,7 @@ public class Main {
     System.out.println(order);
   }
 
-  //方法链接DSL
+  //方法链接DSL(所有构建器都持有相同的MethodChainingOrderBuilder的引用，通过构造方法传进去的，而MethodChainingOrderBuilder又持有Order引用)
   public void methodChaining() {
                                               //创建了指定客户的订单构建器
     Order order = MethodChainingOrderBuilder.forCustomer("BigBank")
@@ -143,10 +143,10 @@ public class Main {
     Order order =
         MixedBuilder.forCustomer("BigBank",  //顶层使用了"嵌套函数"的设计模式
             //参数2
-            MixedBuilder.buy(t -> t.quantity(80)  //这里创建单个交易使用了"lambda表达式"
+            MixedBuilder.buy(t -> t.quantity(80)  //这里创建单个交易使用了"lambda表达式“，这里的t是TradeBuilder
                 .stock("IBM")  //从这里开始使用了"方法链接的模式"
                 .on("NYSE")
-                .at(125.00)),
+                .at(125.00)), //最终返回的是TradeBuilder
 
             //参数3
             MixedBuilder.sell(t -> t.quantity(50)
