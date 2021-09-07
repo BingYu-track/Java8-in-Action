@@ -31,7 +31,7 @@ public class Mapping{
     List<Integer> wordLengths = words.stream()
         .map(String::length)
         .collect(toList());
-    System.out.println(wordLengths);
+    System.out.println(wordLengths); //[5, 5]
 
     //3.找出每道菜的名称有多长
     List<Integer> dishNameLengths = Dish.menu.stream()
@@ -51,7 +51,7 @@ public class Mapping{
 
     //2.flatMap
     words.stream()
-        .flatMap((String line) -> Arrays.stream(line.split(""))) //生成的是Stream<String>
+        .flatMap((String word) -> Arrays.stream(word.split(""))) //生成的是Stream<String>
         .distinct()
         .forEach(System.out::println);
 

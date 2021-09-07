@@ -10,4 +10,7 @@ public class Car {
     return insurance;
   }
 
+  public void setInsurance(Optional<Insurance> insurance) {
+    this.insurance = insurance;
+  }
 }
