@@ -25,14 +25,21 @@ public class Person {
   }
 
   public String getCarInsuranceName2(Optional<Person> person) {
-    Optional<Car> car = person.flatMap(Person::getCar);
-    Optional<Optional<Car>> car1 = person.map(Person::getCar);
 
+    //从Optional<Person>提取car属性，需要用到map方法，但是因为Person里的car属性也是一个Optional就会导致嵌套Optional，因此需要使用flatMap方法打平后提取
+    Optional<Car> car = person.flatMap(Person::getCar);
+
+    //TODO:这是错误示范
+    Optional<Optional<Car>> car2 = person.map(Person::getCar);
+
+    //同理这里Car提取Insurance也要使用flatMap
     Optional<Insurance> insurance = car.flatMap(Car::getInsurance);
+    //TODO:这是错误示范
     Optional<Optional<Insurance>> insurance1 = car.map(Car::getInsurance);
 
 
-    //insurance.flatMap(Insurance::getName);  编译器报错，因为insurance.flatMap()中lambda式要求返回的是Optional类型
+    //insurance.flatMap(Insurance::getName);  编译器报错，因为insurance.flatMap()中lambda式是
+    //Function<? super T, ? extends Optional<? extends U>>  ，返回要求是Optional类型
     Optional<String> s = insurance.map(Insurance::getName);
     return person.flatMap(Person::getCar) //Person::getCar返回的是Optional<Car>，放进之前的Optional后，就会有2层Optional，所以需要flatMap打平
             .flatMap(Car::getInsurance) //同上
@@ -50,7 +57,7 @@ public class Person {
     person.setAge(5);
     person.setCar(Optional.of(car));
     Optional<Person> ops = Optional.ofNullable(person);
-    person.getCarInsuranceName2(ops);
+    person.getCarInsuranceName2(ops); //获取保险公司名称
   }
 
 }
