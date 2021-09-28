@@ -49,7 +49,11 @@ public class DateTimeFormatterExample {
         fd = date.format(chineseFormatter); //
         date2 = LocalDate.parse(fd, chineseFormatter);
 
-        //5. 如果需要更细粒度的控制，可以使用DateTimeFormatterBuilder类，它提供了更复杂的格式器
+        /**
+         * 5. 如果需要更细粒度的控制，可以使用DateTimeFormatterBuilder类，它提供了更复杂的格式器
+         *    你可以选择恰当的方法，一步一步地构造自己的格式器。另外，它还提供了非常强大的解析功能，比如
+         *    区分大小写的解析、柔性解析（允许解析器使用启发式的机制去解析输入，不精确地匹配指定的模式）、填充，以及在格式器中指定可选节
+         */
         italianFormatter = new DateTimeFormatterBuilder()
                 .appendText(ChronoField.DAY_OF_MONTH)
                 .appendLiteral(". ")
@@ -58,6 +62,7 @@ public class DateTimeFormatterExample {
                 .appendText(ChronoField.YEAR)
                 .parseCaseInsensitive()
                 .toFormatter(Locale.ITALIAN);
+        System.out.println(italianFormatter);
 
     }
 }
