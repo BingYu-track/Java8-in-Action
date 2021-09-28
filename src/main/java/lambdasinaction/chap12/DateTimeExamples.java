@@ -63,7 +63,7 @@ public class DateTimeExamples {
     //使用工厂方法now从系统时钟中获取当前的日期:
     LocalDate today = LocalDate.now(); //2021-09-17
 
-    //TemporalField的实现类ChronoField，用来读取LocalDate的值
+    //使用更通用的get方法，TemporalField的实现类ChronoField，用来读取LocalDate的值
     int y = date.get(ChronoField.YEAR);
     int m = date.get(ChronoField.MONTH_OF_YEAR);
     int d = date.get(ChronoField.DAY_OF_MONTH);
@@ -168,21 +168,6 @@ public class DateTimeExamples {
     System.out.println(date);
   }
 
-  private static class NextWorkingDay implements TemporalAdjuster {
-
-    @Override
-    public Temporal adjustInto(Temporal temporal) {
-      DayOfWeek dow = DayOfWeek.of(temporal.get(ChronoField.DAY_OF_WEEK));
-      int dayToAdd = 1;
-      if (dow == DayOfWeek.FRIDAY) {
-        dayToAdd = 3;
-      }
-      if (dow == DayOfWeek.SATURDAY) {
-        dayToAdd = 2;
-      }
-      return temporal.plus(dayToAdd, ChronoUnit.DAYS);
-    }
-  }
 
   private static void useDateFormatter() {
     LocalDate date = LocalDate.of(2014, 3, 18);
