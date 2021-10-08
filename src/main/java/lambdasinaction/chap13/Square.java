@@ -1,7 +1,7 @@
 package lambdasinaction.chap13;
 
 /**
- * Created by raoul-gabrielurma on 15/01/2014.
+ * 一位用户实现的Resizable接口的矩形类
  */
 public class Square implements Resizable {
 
